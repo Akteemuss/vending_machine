@@ -63,6 +63,9 @@ public class AppRunner {
             coinAcceptor.setAmount(coinAcceptor.getAmount() + 10);
             print("Вы пополнили баланс на 10");
             return;
+        } else if ("h".equalsIgnoreCase(action)) {
+            System.out.println("Остановка программы...");
+            isExit = true;
         }
         try {
             for (int i = 0; i < products.size(); i++) {
@@ -80,8 +83,6 @@ public class AppRunner {
                 chooseAction(products);
             }
         }
-
-
     }
 
     private void showActions(UniversalArray<Product> products) {
