@@ -13,6 +13,8 @@ public class AppRunner {
 
     private static boolean isExit = false;
 
+    private final Scanner scanner = new Scanner(System.in);
+
     private AppRunner() {
         products.addAll(new Product[]{
                 new Water(ActionLetter.B, 20),
@@ -64,24 +66,22 @@ public class AppRunner {
             print("Вы пополнили баланс на 10");
             return;
         } else if ("h".equalsIgnoreCase(action)) {
-            System.out.println("Остановка программы...");
             isExit = true;
+            print("Завершение работы...");
+            return;
         }
         try {
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
                     coinAcceptor.setAmount(coinAcceptor.getAmount() - products.get(i).getPrice());
                     print("Вы купили " + products.get(i).getName());
-                    break;
+                    return;
                 }
             }
+            print("Пополните баланс для совершения покупки");
         } catch (IllegalArgumentException e) {
-            if ("h".equalsIgnoreCase(action)) {
-                isExit = true;
-            } else {
-                print("Недопустимая буква. Попрбуйте еще раз.");
-                chooseAction(products);
-            }
+            print("Недопустимая буква. Попробуйте еще раз.");
+            chooseAction(products);
         }
     }
 
@@ -92,7 +92,7 @@ public class AppRunner {
     }
 
     private String fromConsole() {
-        return new Scanner(System.in).nextLine();
+        return scanner.nextLine();
     }
 
     private void showProducts(UniversalArray<Product> products) {
