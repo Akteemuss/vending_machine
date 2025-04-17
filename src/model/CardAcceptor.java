@@ -1,8 +1,9 @@
 package model;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CardAcceptor implements moneyAcceptor{
+public class CardAcceptor implements MoneyAcceptor {
     private int amount;
 
     @Override
@@ -13,18 +14,41 @@ public class CardAcceptor implements moneyAcceptor{
     @Override
     public void addFunds() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите номер карты (16 значений): ");
-        String card = scanner.nextLine();
-        System.out.println("Введите пароль (4 значений): ");
-        String password = scanner.nextLine();
+        try {
+            System.out.print("Введите номер карты (16 значений): ");
+            String card = scanner.nextLine();
+            if (card.length() != 16 || !card.matches("\\d+")) {
+                System.out.println("Номер карты должен содержать 16 цифр");
+                return;
+            }
 
-        if (card.length() == 16 && password.length() == 4) {
-            System.out.println("Введите сумму для пополнения: ");
-            int added = scanner.nextInt();
+            System.out.print("Введите пароль (4 значений): ");
+            String password = scanner.nextLine();
+            if (password.length() != 4 || !password.matches("\\d+")) {
+                System.out.println("Пароль должен содержать 4 цифры");
+                return;
+            }
+
+            System.out.print("Введите сумму для пополнения: ");
+            int added;
+            try {
+                added = scanner.nextInt();
+                scanner.nextLine();
+
+                if (added <= 0) {
+                    System.out.println("Сумма должна быть положительной");
+                    return;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Введите числовое значение суммы");
+                scanner.nextLine();
+                return;
+            }
             amount += added;
-            System.out.printf("Вы пополнили баланс на %d", added);
-        } else {
-            System.out.println("Ошбика авторизации карты");
+            System.out.printf("Вы пополнили баланс на %d%n", added);
+        } finally {
+            // чтобы не закрылся сканер
         }
     }
 

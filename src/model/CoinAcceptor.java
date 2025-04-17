@@ -1,6 +1,6 @@
 package model;
 
-public class CoinAcceptor implements moneyAcceptor{
+public class CoinAcceptor implements MoneyAcceptor {
     private int amount;
 
     public CoinAcceptor(int amount) {
