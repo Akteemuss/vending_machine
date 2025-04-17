@@ -100,6 +100,7 @@ public class AppRunner {
 
         if ("a".equalsIgnoreCase(action)) {
             moneyAcceptor.addFunds();
+            isExitAcceptor = false;
             return;
         } else if ("h".equalsIgnoreCase(action)) {
             isExitAcceptor = true;
@@ -111,6 +112,7 @@ public class AppRunner {
                 if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
                     moneyAcceptor.deduct(products.get(i).getPrice());
                     print("Вы купили " + products.get(i).getName());
+                    isExitAcceptor = false;
                     return;
                 }
             }
